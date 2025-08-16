@@ -1,70 +1,71 @@
-import React,
-{useEffect,
-useState} from 'react'
-import { listEmployees } from '../services/EmployeeService'
-
-
+import React, { useEffect, useState } from "react";
+import { listEmployees } from "../services/EmployeeService";
+import { useNavigate } from "react-router-dom";
 
 const ListEmployeeComponent = () => {
+  const [employees, setEmployees] = useState([]);
+  const navigate = useNavigate();
 
-  const[employees,setEmployees]= useState([])
-
- useEffect(()=>{
-    listEmployees().then((response)=>{
+  useEffect(() => {
+    listEmployees()
+      .then((response) => {
         setEmployees(response.data);
-    }).catch(error=>{
+      })
+      .catch((error) => {
         console.error(error);
-    })
- },[])
-    const dummyData=[
-        {
-            "id":1,
-            "firstName":"Ritesh",
-            "lastName":"Regar",
-            "email":"riteshregar31@gmail.com"
-        },
-          {
-            "id":2,
-            "firstName":"Raman",
-            "lastName":"kumar",
-            "email":"roamd@gmail.com"
-        },  {
-            "id":3,
-            "firstName":"Rohan",
-            "lastName":"ravi",
-            "email":"rohd@gmail.com"
-        }
-    ]
+      });
+  }, []);
+
+  function addNewEmployee() {
+    navigate("/add-employee");
+  }
+
   return (
-    <div className='container'>
-<h2 className='text-center'>
-    List of employees
-</h2>
-<table className='table striped table-bordered'>
-    <thead>
-        <tr>
-            <th>Employee Id</th>
-            <th>Employee First Name</th>
-            <th>Employee Last Name</th>
-            <th>Employee Email Id</th>
-        </tr>
-    </thead>
-    <tbody>
-        {
-            employees.map(employee=>
-            <tr key={employee.id}>
-                <td>{employee.id}</td>
-                <td>{employee.firstname}</td>
-                <td>{employee.lastname}</td>
-                <td>{employee.email}</td>
-
-            </tr>)
-        }
-    </tbody>
-</table>
-
+    <div className="container mt-5">
+      <div className="card shadow-lg">
+        <div className="card-header bg-primary text-white text-center">
+          <h3 className="mb-0">List of Employees</h3>
+        </div>
+        <div className="card-body">
+          <div className="d-flex justify-content-end mb-3">
+            <button className="btn btn-success" onClick={addNewEmployee}>
+              + Add Employee
+            </button>
+          </div>
+          <div className="table-responsive">
+            <table className="table table-hover table-bordered align-middle">
+              <thead className="table-dark">
+                <tr>
+                  <th scope="col">Employee Id</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Email Id</th>
+                </tr>
+              </thead>
+              <tbody>
+                {employees.length > 0 ? (
+                  employees.map((employee) => (
+                    <tr key={employee.id}>
+                      <td>{employee.id}</td>
+                      <td>{employee.firstname}</td>
+                      <td>{employee.lastname}</td>
+                      <td>{employee.email}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" className="text-center text-muted py-4">
+                      No employees found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default ListEmployeeComponent
+export default ListEmployeeComponent;

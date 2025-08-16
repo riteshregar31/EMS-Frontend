@@ -1,20 +1,28 @@
 import './App.css';
 import FooterComponent from './components/FooterComponent';
-import ListEmployeeComponent from './components/ListEmployeeComponent';
 import HeaderComponent from './components/HeaderComponent';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ListEmployeeComponent from './components/ListEmployeeComponent';
+import EmployeeComponent from './components/EmployeeComponent';
 
 function App() {
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <HeaderComponent />
+    <BrowserRouter>
+      <div className="d-flex flex-column min-vh-100">
+        <HeaderComponent />
 
-      {/* Main content */}
-      <main className="flex-fill">
-        <ListEmployeeComponent />
-      </main>
+        {/* Main content handled by routes */}
+        <main className="flex-fill">
+          <Routes>
+            <Route path="/" element={<ListEmployeeComponent />} />
+            <Route path="/employees" element={<ListEmployeeComponent />} />
+            <Route path='/add-employee' element={<EmployeeComponent/>}></Route>
+          </Routes>
+        </main>
 
-      <FooterComponent />
-    </div>
+        <FooterComponent />
+      </div>
+    </BrowserRouter>
   );
 }
 
