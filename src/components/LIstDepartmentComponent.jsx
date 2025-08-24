@@ -1,40 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getAllDepartments } from "../services/DepartmentService";
 
 const ListDepartmentComponent = () => {
-  const dummyData = [
-    {
-      id: 1,
-      departmentName: "R&D",
-      departmentDescription: "Research and Development",
-    },
-    {
-      id: 2,
-      departmentName: "HR",
-      departmentDescription: "Human Resources Management",
-    },
-    {
-      id: 3,
-      departmentName: "Finance",
-      departmentDescription: "Financial Planning and Analysis",
-    },
-    {
-      id: 4,
-      departmentName: "IT",
-      departmentDescription: "Information Technology Support",
-    },
-    {
-      id: 5,
-      departmentName: "Sales",
-      departmentDescription: "Business Sales and Client Relations",
-    },
-    {
-      id: 6,
-      departmentName: "Marketing",
-      departmentDescription: "Marketing Strategy and Campaigns",
-    },
-  ];
+//   const dummyData = [
+//     {
+//       id: 1,
+//       departmentName: "R&D",
+//       departmentDescription: "Research and Development",
+//     },
+//     {
+//       id: 2,
+//       departmentName: "HR",
+//       departmentDescription: "Human Resources Management",
+//     },
+//     {
+//       id: 3,
+//       departmentName: "Finance",
+//       departmentDescription: "Financial Planning and Analysis",
+//     },
+//     {
+//       id: 4,
+//       departmentName: "IT",
+//       departmentDescription: "Information Technology Support",
+//     },
+//     {
+//       id: 5,
+//       departmentName: "Sales",
+//       departmentDescription: "Business Sales and Client Relations",
+//     },
+//     {
+//       id: 6,
+//       departmentName: "Marketing",
+//       departmentDescription: "Marketing Strategy and Campaigns",
+//     },
+//   ];
 
-  const [departments, setDepartments] = useState(dummyData);
+  const [departments, setDepartments] = useState([]);
+
+  useEffect(()=>{
+     getAllDepartments().then((response)=>{
+        console.log(response.data)
+        setDepartments(response.data)
+     }).catch(error=>{
+        console.error(error)
+     })
+  },[])
 
   return (
     <div className="container mt-5">
